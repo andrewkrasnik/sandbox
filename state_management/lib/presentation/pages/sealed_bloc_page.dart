@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:state_management/domain/usecases/get_items_usecase.dart';
 import 'package:state_management/presentation/state_management/bloc_sealed/items_sealed_bloc.dart';
+import 'package:state_management/presentation/widgets/error_widget.dart';
 import 'package:state_management/presentation/widgets/items_widget.dart';
 
 class SealedBlocPage extends StatelessWidget {
@@ -25,8 +26,14 @@ class SealedBlocPage extends StatelessWidget {
                 ),
               DataItemsSealedState(items: final items) =>
                 ItemsWidget(items: items),
-              ErrorItemsSealedState() => const Center(
-                  child: Text('No data'),
+              ErrorItemsSealedState(description: final description) => Center(
+                  child: ErrorDescriptionWidget(
+                    description: description,
+                    onPressed: () {
+                      BlocProvider.of<ItemsSealedBloc>(context)
+                          .add(const LoadItemsEvent());
+                    },
+                  ),
                 ),
             },
           ),

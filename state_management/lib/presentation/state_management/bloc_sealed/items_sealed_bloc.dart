@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:state_management/domain/entities/list_item.dart';
+import 'package:state_management/domain/entities/result.dart';
 import 'package:state_management/domain/usecases/get_items_usecase.dart';
 
 part 'items_sealed_event.dart';
@@ -13,9 +14,15 @@ class ItemsSealedBloc extends Bloc<ItemsEvent, ItemsSealedState> {
     on<LoadItemsEvent>((event, emit) async {
       emit(const LoadingItemsSealedState());
 
-      final items = await _getItemsUsecase();
+      final result = await _getItemsUsecase();
 
-      emit(DataItemsSealedState(items: items));
+      switch (result) {
+        case Success<List<ListItem>, Exception>(value: final items):
+          emit(DataItemsSealedState(items: items));
+
+        case Failure<List<ListItem>, Exception>(exception: final exception):
+          emit(ErrorItemsSealedState(description: exception.toString()));
+      }
     });
   }
 }
