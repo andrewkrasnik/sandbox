@@ -9,19 +9,18 @@ part 'items_sealed_state.dart';
 class ItemsSealedBloc extends Bloc<ItemsEvent, ItemsSealedState> {
   final GetItemsUsecase _getItemsUsecase;
 
-  ItemsSealedBloc(this._getItemsUsecase)
-      : super(const InitialItemsSealedState()) {
-    on<LoadItemsEvent>((event, emit) async {
-      emit(const LoadingItemsSealedState());
+  ItemsSealedBloc(this._getItemsUsecase) : super(const Initial()) {
+    on<Load>((event, emit) async {
+      emit(const Loading());
 
       final result = await _getItemsUsecase();
 
       switch (result) {
         case Success<List<ListItem>, Exception>(value: final items):
-          emit(DataItemsSealedState(items: items));
+          emit(Data(items: items));
 
         case Failure<List<ListItem>, Exception>(exception: final exception):
-          emit(ErrorItemsSealedState(description: exception.toString()));
+          emit(Error(description: exception.toString()));
       }
     });
   }

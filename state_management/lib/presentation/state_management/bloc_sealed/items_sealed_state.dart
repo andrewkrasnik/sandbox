@@ -2,22 +2,22 @@ part of 'items_sealed_bloc.dart';
 
 sealed class ItemsSealedState {}
 
-class LoadingItemsSealedState implements ItemsSealedState {
-  const LoadingItemsSealedState();
+class Loading implements ItemsSealedState {
+  const Loading();
 }
 
-class InitialItemsSealedState implements ItemsSealedState {
-  const InitialItemsSealedState();
+class Initial implements ItemsSealedState {
+  const Initial();
 }
 
-class DataItemsSealedState implements ItemsSealedState {
+class Data implements ItemsSealedState {
   final List<ListItem> items;
 
-  const DataItemsSealedState({required this.items});
+  const Data({required this.items});
 }
 
-class ErrorItemsSealedState implements ItemsSealedState {
+class Error implements ItemsSealedState {
   final String description;
 
-  const ErrorItemsSealedState({required this.description});
+  const Error({required this.description});
 }
